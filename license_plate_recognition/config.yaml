@@ -1,0 +1,4 @@
+buckets:
+  training: licenseplatedata
+  output: licenseplatedata
+name: licenseplatedata
