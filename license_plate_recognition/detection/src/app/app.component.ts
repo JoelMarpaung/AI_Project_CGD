@@ -8,7 +8,7 @@ import { withSaveHandler } from "@tensorflow/tfjs-core/dist/io/io";
   styleUrls: ["./app.component.css"]
 })
 export class AppComponent {
-  title = "Oject Detection for License Plate using Tensorflow JS";
+  title = "Oject Detection and Recognition for License Plate using Tensorflow JS and OpenALPR";
   private video: HTMLVideoElement;
   private xVal;
   private yVal;
@@ -252,6 +252,29 @@ export class AppComponent {
     const font = "16px sans-serif";
     ctx.font = font;
     ctx.textBaseline = "top";
-    ctx.drawImage(this.video,0, 0, ctx.canvas.width, ctx.canvas.height);
+    ctx.drawImage(this.video, 0, 0, ctx.canvas.width, ctx.canvas.height);
+
+    var image = new Image();
+
+    var license = canvas.toDataURL("image/jpg").substring(22);
+    console.log(license);
+
+    var secret_key = "sk_6f91ddc4ca251ca73630872c";
+    var url =
+      "https://api.openalpr.com/v2/recognize_bytes?recognize_vehicle=1&country=id&secret_key=" +
+      secret_key;
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", url);
+
+    // Send POST data and display response
+    xhr.send(license);
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState == 4) {
+        document.getElementById("response").innerHTML = xhr.responseText;
+      } else {
+        document.getElementById("response").innerHTML =
+          "Waiting on response...";
+      }
+    };
   }
 }
