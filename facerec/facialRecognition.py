@@ -1,5 +1,3 @@
-# %% Change working directory from the workspace root to the ipynb file location. Turn this addition off with the DataScience.changeDirOnImportExport setting
-# ms-python.python added
 import os
 try:
     os.chdir(os.path.join(os.getcwd(), 'facerec'))
@@ -7,13 +5,10 @@ try:
 except:
     pass
 
-# %%
 import cv2
 import os
 import numpy as np
 
-
-# %%
 def faceDetection(test_img):
     gray_img = cv2.cvtColor(test_img, cv2.COLOR_BGR2GRAY)
     face_haar_cascade = cv2.CascadeClassifier(
@@ -69,6 +64,4 @@ def make_rectangle(test_img, face):
 
 def show_name(test_img, text, x, y):
     cv2.putText(test_img, text, (x, y), cv2.FONT_ITALIC, 1, (255, 255, 255), 1)
-
-
-# %%
+    

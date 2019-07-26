@@ -1,0 +1,97 @@
+<nav class="nav-extended">
+    <div class="nav-wrapper">
+        <a class="brand-logo">Aplikasi Web</a>
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
+            <li><a routerLink="/userprofile">User Profile</a></li>
+            <li><a href="#" (click)="onLogout()">Logout</a></li>
+        </ul>
+    </div>
+    <div class="nav-content">
+        <ul class="tabs tabs-transparent">
+            <li class="tab"><a class="active" routerLink="/occupants">Occupants</a></li>
+            <li class="tab"><a routerLink="/logs">Logs</a></li>
+        </ul>
+    </div>
+</nav>
+<div class="row">
+    <div class="col s12">
+        <div class="card white">
+            <div class="card-content black-text">
+                <div class="row">
+                    <div class="col s5">
+                        <form #occupantForm="ngForm" (ngSubmit)="onSubmit(occupantForm)">
+                            <input type="hidden" name="_id" #_id="ngModel" [(ngModel)]="occupantService.selectedOccupant._id">
+                            <div class="row">
+                            <div class="input-field col s12">
+                                <input type="text" name="name" #name="ngModel" [(ngModel)]="occupantService.selectedOccupant.name" placeholder="Enter full name" required>
+                                <label>Name :
+                                <label class="red-text">*</label>
+                                </label>
+                            </div>
+                            </div>
+                            <div class="row">
+                            <div class="input-field col s12">
+                                <input type="text" name="phone_number" #name="ngModel" [(ngModel)]="occupantService.selectedOccupant.phone_number" placeholder="Phone Number : +628XXXXXXX">
+                                <label>Phone Number :</label>
+                            </div>
+                            </div>
+                            <div class="row">
+                            <div class="input-field col s12">
+                                <input type="text" name="house_number" #name="ngModel" [(ngModel)]="occupantService.selectedOccupant.house_number" placeholder="Enter house number">
+                                <label>House Number :</label>
+                            </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12">
+                                <input type="text" name="images" #name="ngModel" [(ngModel)]="occupantService.selectedOccupant.images" placeholder="Enter images">
+                                <label>Images :</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12">
+                                <input type="text" name="license_plate" #name="ngModel" [(ngModel)]="occupantService.selectedOccupant.license_plate" placeholder="Enter licence plate">
+                                <label>License Plate :</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <button class="btn btn-custom right" type="button" (click)="resetForm(occupantForm)">Reset</button>
+                                    <button class="btn btn-custom right" type="submit" [disabled]="!occupantForm.valid">Submit</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col s7">
+                        <table class="responsive-table highlight">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Phone Number</th>
+                                    <th>House Number</th>
+                                    <th>Images</th>
+                                    <th>License Plate</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tr *ngFor="let lg of occupantService.occupants">
+                                <td>{{lg.name}}</td>
+                                <td>{{lg.phone_number}}</td>
+                                <td>{{lg.house_number}}</td>
+                                <td>{{lg.images}}</td>
+                                <td>{{lg.license_plate}}</td>
+                                <td>
+                                    <a class="action-btn" (click)="onEdit(lg)">
+                                        <i class="material-icons">edit</i>
+                                    </a>
+                                    <a class="action-btn" (click)="onDelete(lg._id,occupantForm)">
+                                        <i class="material-icons">delete</i>
+                                    </a>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
