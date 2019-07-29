@@ -49,6 +49,12 @@
                                 </div>
                                 <div class="row">
                                     <div class="input-field col s12">
+                                    <input type="text" name="date" #name="ngModel" [(ngModel)]="logService.selectedLog.date" placeholder="Enter date">
+                                    <label>Date :</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="input-field col s12">
                                         <button class="btn btn-custom right" type="button" (click)="resetForm(logForm)">Reset</button>
                                         <button class="btn btn-custom right" type="submit" [disabled]="!logForm.valid">Submit</button>
                                     </div>
@@ -59,18 +65,22 @@
                             <table class="responsive-table highlight">
                                 <thead>
                                     <tr>
+                                        <th></th>
                                         <th>ID Occupant</th>
                                         <th>Full Name</th>
                                         <th>License Plate</th>
                                         <th>Status</th>
+                                        <th>Date</th>
                                         <th></th>
                                     </tr>
                                 </thead>
                                 <tr *ngFor="let lg of logService.logs">
+                                    <td></td>
                                     <td>{{lg.id_occupant}}</td>
                                     <td>{{lg.name}}</td>
                                     <td>{{lg.license_plate}}</td>
                                     <td>{{lg.status}}</td>
+                                    <td>{{lg.date}}</td>
                                     <td>
                                         <a class="action-btn" (click)="onEdit(lg)">
                                             <i class="material-icons">edit</i>
