@@ -8,7 +8,8 @@ import { withSaveHandler } from "@tensorflow/tfjs-core/dist/io/io";
   styleUrls: ["./app.component.css"]
 })
 export class AppComponent {
-  title = "Oject Detection and Recognition for License Plate using Tensorflow JS and OpenALPR";
+  title =
+    "Oject Detection and Recognition for License Plate using Tensorflow JS and OpenALPR";
   private video: HTMLVideoElement;
   private xVal;
   private yVal;
@@ -257,7 +258,7 @@ export class AppComponent {
     var image = new Image();
 
     var license = canvas.toDataURL("image/jpg").substring(22);
-    console.log(license);
+    // console.log(license);
 
     var secret_key = "sk_6f91ddc4ca251ca73630872c";
     var url =
@@ -271,10 +272,45 @@ export class AppComponent {
     xhr.onreadystatechange = function() {
       if (xhr.readyState == 4) {
         document.getElementById("response").innerHTML = xhr.responseText;
+        // var myJSON = JSON.stringify(xhr.responseText);
+        var obj = JSON.parse(xhr.responseText);
+        var number = obj.results[0].plate;
+        // console.log(xhr.responseText);
+        // console.log(obj);
+        console.log(number);
+        // var MongoClient = require("mongodb").MongoClient;
+        // var url = "mongodb://localhost:27017/";
+        // MongoClient.connect(url, function(err, db) {
+        //   if (err) throw err;
+        //   var dbo = db.db("aiproject");
+        //   var myquery = { license_plate: "new" };
+        //   var newvalues = { $set: { licenseplate: number } };
+        //   dbo
+        //     .collection("logs")
+        //     .updateOne(myquery, newvalues, function(err, res) {
+        //       if (err) throw err;
+        //       console.log("1 document updated");
+        //       db.close();
+        //     });
+        // });
       } else {
         document.getElementById("response").innerHTML =
           "Waiting on response...";
       }
     };
+
+    // var MongoClient = require('mongodb').MongoClient;
+    // var url = "mongodb://localhost:27017/";
+    // MongoClient.connect(url, function(err, db) {
+    //   if (err) throw err;
+    //   var dbo = db.db("aiproject");
+    //   var myquery = { license_plate: "new" };
+    //   var newvalues = { $set: {licenseplate: "Mickey"} };
+    //   dbo.collection("logs").updateOne(myquery, newvalues, function(err, res) {
+    //     if (err) throw err;
+    //     console.log("1 document updated");
+    //     db.close();
+    //   });
+    // });
   }
 }

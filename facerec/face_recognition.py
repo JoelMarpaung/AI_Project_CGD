@@ -65,7 +65,7 @@ while True:
             print(username)
             old_occupant = username
             print(old_occupant)
-            mydict = {"id_occupant" : label, "name" : username, "license_plate" : "", "status" : "in"}
+            mydict = {"id_occupant" : label, "name" : username, "license_plate" : "new", "status" : "in"}
             mycol.insert_one(mydict)
 
         fr.make_rectangle(test_img, face)
