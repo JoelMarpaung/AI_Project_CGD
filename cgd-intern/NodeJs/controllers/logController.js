@@ -1,7 +1,6 @@
 const express = require('express');
 var router = express.Router();
 var ObjectId = require('mongoose').Types.ObjectId;
-
 var { Log } = require('../models/log');
 
 // => localhost:3000/logs/
@@ -36,22 +35,34 @@ router.post('/', (req, res) => {
     });
 });
 
-router.put('/:id', (req, res) => {
-    if (!ObjectId.isValid(req.params.id))
-        return res.status(400).send(`No record with given id : ${req.params.id}`);
+// router.put('/:id', (req, res) => {
+//     if (!ObjectId.isValid(req.params.id))
+//         return res.status(400).send(`No record with given id : ${req.params.id}`);
 
-    var lg = {
-        id_occupant: req.body.id_occupant,
-        name: req.body.name,
+//     var lg = {
+//         id_occupant: req.body.id_occupant,
+//         name: req.body.name,
+//         status: req.body.status,
+//         date: req.body.date
+//     };
+//     Log.findByIdAndUpdate(req.params.id, { $set: lg }, { new: true }, (err, doc) => {
+//         if (!err) { res.send(doc); }
+//         else { console.log('Error in Log Update :' + JSON.stringify(err, undefined, 2)); }
+//     });
+// });
+
+const license_plate = { license_plate: 'unknown' };
+router.put('/:license_plate', (req, res) => {
+    var lg= {
         license_plate: req.body.license_plate,
-        status: req.body.status,
-        date: req.body.date
     };
-    Log.findByIdAndUpdate(req.params.id, { $set: lg }, { new: true }, (err, doc) => {
+
+    Log.updateOne(license_plate, { $set: lg }, { new: true }, (err, doc) => {
+        console.log(err);
         if (!err) { res.send(doc); }
         else { console.log('Error in Log Update :' + JSON.stringify(err, undefined, 2)); }
     });
-});
+})
 
 router.delete('/:id', (req, res) => {
     if (!ObjectId.isValid(req.params.id))
