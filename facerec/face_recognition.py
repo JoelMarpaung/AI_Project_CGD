@@ -14,10 +14,10 @@ import sqlite3
 import pymongo
 import datetime
 
-#connect to database
-client = pymongo.MongoClient("localhost", 27017)
-db = client.housing
-db.resident_logs
+#connect database
+myclient = pymongo.MongoClient("mongodb://localhost:27017/")
+mydb = myclient["aiproject"]
+mycol = mydb["logs"]
 
 face_recog = cv2.face.LBPHFaceRecognizer_create()
 face_recog.read('hasil_training.yml')
@@ -59,10 +59,14 @@ while True:
             print("Name:", username)
 #             result_recog = cv2.FileStorage('C:/Users/Asus/Documents/Kerja Praktik/FaceRecognition/facesResult.h5', cv2.FILE_STORAGE_WRITE)
 #             result_recog.write("Name : ", predict_person)
-
+        
         if(username!=old_occupant):
+            print(old_occupant)
+            print(username)
             old_occupant = username
-            db.resident_logs.insert_one({"id_occupant" : label, "username" : username, "plate" : "", "status" : "masuk", "datetime" : time_now})
+            print(old_occupant)
+            mydict = {"id_occupant" : label, "name" : username, "license_plate" : "", "status" : "in"}
+            mycol.insert_one(mydict)
 
         fr.make_rectangle(test_img, face)
         fr.show_name(test_img, username, x, y)
