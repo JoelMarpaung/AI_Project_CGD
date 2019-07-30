@@ -53,6 +53,7 @@ router.post('/', (req, res) => {
 
 const license_plate = { license_plate: 'unknown' };
 router.put('/:license_plate', (req, res) => {
+    console.log("test");
     var lg= {
         license_plate: req.body.license_plate,
     };

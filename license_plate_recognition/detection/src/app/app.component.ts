@@ -1,7 +1,17 @@
 import { Component } from "@angular/core";
 import * as tf from "@tensorflow/tfjs";
 import { withSaveHandler } from "@tensorflow/tfjs-core/dist/io/io";
+import { HttpParams } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 
+class Log {
+  license_plate: string;
+}
+const params = new HttpParams().set("_page", "1").set("_limit", "1");
+const headers = new HttpHeaders().set(
+  "X-CustomHttpHeader",
+  "Access-Control-Allow-Origin: true"
+);
 @Component({
   selector: "app-root",
   templateUrl: "./app.component.html",
@@ -15,6 +25,9 @@ export class AppComponent {
   private yVal;
   private wVal;
   private hVal;
+  private license_old: "unknown";
+
+  constructor(private httpClient: HttpClient) {}
 
   ngOnInit() {
     this.webcam_init();
@@ -179,7 +192,10 @@ export class AppComponent {
       .then(predictions => {
         this.renderPredictions(predictions, labels);
         requestAnimationFrame(() => {
-          this.detectFrame(video, model, labels);
+          setTimeout(() => {
+            //<<<---    using ()=> syntax
+            this.detectFrame(video, model, labels);
+          }, 2000);
         });
       });
   };
@@ -208,15 +224,6 @@ export class AppComponent {
       this.yVal = y;
       this.wVal = width;
       this.hVal = height;
-      // console.log(label);
-      // console.log(x);
-      // console.log(this.xVal);
-      // console.log(y);
-      // console.log(this.yVal);
-      // console.log(width);
-      // console.log(this.wVal);
-      // console.log(height);
-      // console.log(this.hVal);
 
       // Draw the bounding box.
       ctx.strokeStyle = "#00FFFF";
@@ -227,6 +234,10 @@ export class AppComponent {
       const textWidth = ctx.measureText(label).width;
       const textHeight = parseInt(font, 10); // base 10
       ctx.fillRect(x, y, textWidth + 4, textHeight + 4);
+
+      if (label == "license_plate") {
+        this.capture();
+      }
     });
 
     predictions.forEach(prediction => {
@@ -239,7 +250,7 @@ export class AppComponent {
     });
   };
 
-  public capture() {
+  public async capture() {
     const canvas = <HTMLCanvasElement>document.getElementById("canvasCapture");
 
     const ctx = canvas.getContext("2d");
@@ -267,50 +278,26 @@ export class AppComponent {
     var xhr = new XMLHttpRequest();
     xhr.open("POST", url);
 
+    var number = "unknown";
     // Send POST data and display response
     xhr.send(license);
     xhr.onreadystatechange = function() {
       if (xhr.readyState == 4) {
         document.getElementById("response").innerHTML = xhr.responseText;
-        // var myJSON = JSON.stringify(xhr.responseText);
         var obj = JSON.parse(xhr.responseText);
-        var number = obj.results[0].plate;
-        // console.log(xhr.responseText);
-        // console.log(obj);
+        number = obj.results[0].plate;
         console.log(number);
-        // var MongoClient = require("mongodb").MongoClient;
-        // var url = "mongodb://localhost:27017/";
-        // MongoClient.connect(url, function(err, db) {
-        //   if (err) throw err;
-        //   var dbo = db.db("aiproject");
-        //   var myquery = { license_plate: "new" };
-        //   var newvalues = { $set: { licenseplate: number } };
-        //   dbo
-        //     .collection("logs")
-        //     .updateOne(myquery, newvalues, function(err, res) {
-        //       if (err) throw err;
-        //       console.log("1 document updated");
-        //       db.close();
-        //     });
-        // });
+        var license_plate = number;
+
+        var abc = new XMLHttpRequest();
+        abc.open("PUT", "http://localhost:3000/logs/unknown");
+        abc.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        console.log(license_plate);
+        abc.send(JSON.stringify({ license_plate: license_plate }));
       } else {
         document.getElementById("response").innerHTML =
           "Waiting on response...";
       }
     };
-
-    // var MongoClient = require('mongodb').MongoClient;
-    // var url = "mongodb://localhost:27017/";
-    // MongoClient.connect(url, function(err, db) {
-    //   if (err) throw err;
-    //   var dbo = db.db("aiproject");
-    //   var myquery = { license_plate: "new" };
-    //   var newvalues = { $set: {licenseplate: "Mickey"} };
-    //   dbo.collection("logs").updateOne(myquery, newvalues, function(err, res) {
-    //     if (err) throw err;
-    //     console.log("1 document updated");
-    //     db.close();
-    //   });
-    // });
   }
 }

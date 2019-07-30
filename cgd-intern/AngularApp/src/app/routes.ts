@@ -27,6 +27,6 @@ export const appRoutes: Routes = [
     },
     {
         path:'logs', component: LogComponent
-    }
+    },
 
 ];

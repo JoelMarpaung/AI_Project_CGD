@@ -35,7 +35,7 @@ import { AuthInterceptor } from './auth/auth.interceptor';
     BrowserModule,
     FormsModule,
     RouterModule.forRoot(appRoutes),
-    HttpClientModule
+    HttpClientModule,
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,
