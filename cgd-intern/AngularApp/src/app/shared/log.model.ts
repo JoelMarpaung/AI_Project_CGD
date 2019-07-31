@@ -5,4 +5,5 @@ export class Log {
     license_plate: string;
     status: string;
     date: string;
+    accuracy: string;
 }

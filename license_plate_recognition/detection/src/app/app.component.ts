@@ -283,7 +283,7 @@ export class AppComponent {
     xhr.send(license);
     xhr.onreadystatechange = function() {
       if (xhr.readyState == 4) {
-        document.getElementById("response").innerHTML = xhr.responseText;
+        // document.getElementById("response").innerHTML = xhr.responseText;
         var obj = JSON.parse(xhr.responseText);
         number = obj.results[0].plate;
         console.log(number);
@@ -295,8 +295,9 @@ export class AppComponent {
         console.log(license_plate);
         abc.send(JSON.stringify({ license_plate: license_plate }));
       } else {
-        document.getElementById("response").innerHTML =
-          "Waiting on response...";
+        // document.getElementById("response").innerHTML =
+        //   "Waiting on response...";
+        console.log("waiting");
       }
     };
   }

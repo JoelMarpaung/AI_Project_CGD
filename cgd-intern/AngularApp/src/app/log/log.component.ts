@@ -32,6 +32,7 @@ export class LogComponent implements OnInit {
       license_plate: "",
       status: "",
       date: "",
+      accuracy: "",
     }
   }
 

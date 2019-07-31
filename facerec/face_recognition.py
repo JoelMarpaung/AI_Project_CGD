@@ -47,8 +47,9 @@ while True:
         label, confidence = face_recog.predict(img_gray)
         username = person_name[label]
 
-        if (confidence < 100):
+        if (confidence < 100 and confidence >= 0):
             accuracy = " {0}%".format(round(100-confidence))
+            print("Confidence:", confidence)
             print("Accuracy:", accuracy)
             print("ID:", label)
             print("Name: ", username)
@@ -57,15 +58,13 @@ while True:
             label = 0
             print("ID:", label)
             print("Name:", username)
-#             result_recog = cv2.FileStorage('C:/Users/Asus/Documents/Kerja Praktik/FaceRecognition/facesResult.h5', cv2.FILE_STORAGE_WRITE)
-#             result_recog.write("Name : ", predict_person)
         
         if(username!=old_occupant):
             print(old_occupant)
             print(username)
             old_occupant = username
             print(old_occupant)
-            mydict = {"id_occupant" : label, "name" : username, "license_plate" : "unknown", "status" : "in", "date" : time_now}
+            mydict = {"id_occupant" : label, "name" : username, "license_plate" : "unknown", "status" : "in", "date" : time_now, "accuracy": accuracy}
             mycol.insert_one(mydict)
 
         fr.make_rectangle(test_img, face)

@@ -6,6 +6,7 @@ var Log = mongoose.model('Log', {
     license_plate: { type: String },
     status: { type: String, enum: ['in', 'out'] },
     date: { type: String },
+    accuracy: { type: String },
 });
 
 module.exports = { Log };
