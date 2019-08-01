@@ -19,7 +19,7 @@ const headers = new HttpHeaders().set(
 })
 export class AppComponent {
   title =
-    "Oject Detection and Recognition for License Plate using Tensorflow JS and OpenALPR";
+    "Oject Detection and Recognition for License Plate";
   private video: HTMLVideoElement;
   private xVal;
   private yVal;

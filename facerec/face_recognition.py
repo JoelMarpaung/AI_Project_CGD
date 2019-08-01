@@ -55,6 +55,7 @@ while True:
             print("Name: ", username)
 
         else:
+            accuracy = "100%"
             label = 0
             print("ID:", label)
             print("Name:", username)
